@@ -1,4 +1,9 @@
-<div class="p-4 text-red-700 bg-red-100 rounded-md">
+<script lang="ts">
+	let className = '';
+	export { className as class };
+</script>
+
+<div class="p-2 text-red-700 bg-red-100 rounded-md md:p-4 {className}">
 	<div class="flex items-center">
 		<svg
 			xmlns="http://www.w3.org/2000/svg"

@@ -6,13 +6,14 @@
 	import PreguntasFrecuentes from './PreguntasFrecuentes.svelte';
 	import EnlacesUtiles from './EnlacesUtiles.svelte';
 
-	let errorMessage: string | undefined = undefined;
+	let errorMessage = '';
 	let respuestaConsulta: ConsultaDeComerciosResponse | undefined = undefined;
 	let cuitInput = '';
 
 	const handleFormSubmit: HTMLFormElement['onsubmit'] = async (event) => {
 		const formData = new FormData(event.target as HTMLFormElement);
 		const cuit = formData.get('cuit');
+		errorMessage = '';
 		if (!cuit) {
 			errorMessage = 'El CUIT no puede estar vacío';
 			return;
@@ -23,7 +24,7 @@
 		}
 
 		try {
-			errorMessage = undefined;
+			errorMessage = '';
 			const response = await fetch('/api/consulta-de-comercios', {
 				method: 'POST',
 				headers: {
@@ -52,7 +53,7 @@
 	const handleCuitChange: HTMLInputElement['onchange'] = (event) => {
 		const cuit = (event.target as HTMLInputElement).value;
 		cuitInput = cuit.replace(/[^\d-]/g, '');
-		errorMessage = undefined;
+		errorMessage = '';
 	};
 </script>
 
@@ -60,10 +61,8 @@
 <main>
 	<section>
 		<div>
-			<h1 class="text-2xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-				¿Puedo comprar sin IVA?
-			</h1>
-			<p class="mx-auto max-w-[700px] text-zinc-500 md:text-xl">
+			<h1>¿Puedo comprar sin IVA?</h1>
+			<p class="subheader">
 				Sacate todas las dudas sobre el programa
 				<a
 					href="https://www.argentina.gob.ar/noticias/compre-sin-iva"
@@ -75,10 +74,8 @@
 	</section>
 	<section id="consulta-de-comercios">
 		<div>
-			<h2 class="text-lg font-bold tracking-tighter sm:text-2xl md:text-3xl lg:text-4xl/none">
-				Consulta de comercios
-			</h2>
-			<p class="mx-auto max-w-[700px] text-zinc-500 md:text-xl">
+			<h2>Consulta de comercios</h2>
+			<p class="subheader">
 				Averiguá si el comercio en el que vas a comprar está incluido dentro del programa
 			</p>
 			<form class="flex items-center space-x-2" on:submit|preventDefault={handleFormSubmit}>
@@ -103,17 +100,17 @@
 				</button>
 			</form>
 			{#if errorMessage}
-				<Error>
+				<Error class="mt-2">
 					{errorMessage}
 				</Error>
 			{/if}
 			{#if respuestaConsulta}
 				{#if respuestaConsulta.comercioIncluido}
-					<Success>
+					<Success class="mt-2">
 						{respuestaConsulta.message}
 					</Success>
 				{:else}
-					<Error>
+					<Error class="mt-2">
 						{respuestaConsulta.message}
 					</Error>
 				{/if}
@@ -128,18 +125,36 @@
 	</section> -->
 </main>
 <footer>
-	Hecho por
-	<a href="https://www.ivanlewin.com" target="_blank" class="text-blue-600">Iván Lewin</a>
+	<p>
+		Hecho por
+		<a href="https://www.ivanlewin.com" target="_blank" class="text-blue-600">Iván Lewin</a>
+	</p>
 </footer>
 
 <style lang="postcss">
+	main {
+		min-height: calc(100vh - theme(spacing.8));
+	}
+	footer {
+		@apply h-8 w-full text-center;
+	}
 	section {
 		@apply w-full py-12 md:py-24 lg:py-32;
 	}
 	section > div {
 		@apply container flex flex-col items-center px-4 space-y-2 text-center md:px-6 max-w-none;
 	}
-	footer {
-		@apply absolute w-full text-center bottom-1;
+	h1,
+	h2 {
+		@apply font-bold tracking-tighter;
+	}
+	h1 {
+		@apply text-2xl sm:text-3xl lg:text-4xl;
+	}
+	h2 {
+		@apply text-lg sm:text-xl lg:text-2xl;
+	}
+	.subheader {
+		@apply mx-auto max-w-[700px] text-zinc-500 md:text-xl;
 	}
 </style>
