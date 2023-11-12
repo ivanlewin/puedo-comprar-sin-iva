@@ -1,3 +1,7 @@
+<!-- https://www.argentina.gob.ar/noticias/compre-sin-iva-0
+https://www.afip.gob.ar/reintegro/compre-sin-iva/
+https://servicioscf.afip.gob.ar/publico/reintegro/consulta.aspx -->
+
 <div class="container grid items-center justify-center gap-4 px-4 text-center md:px-6 lg:gap-10">
 	<div class="space-y-3">
 		<h2 class="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Enlaces útiles</h2>
